@@ -17,8 +17,19 @@ auto adder = [](uint32_t num1, uint32_t num2)
 {
 	uint32_t	xor_n;
 	uint32_t	carry = 1;
-	carry = num1 & num2;
-	return (carry);
+	while (carry != 0)
+	{
+		xor_n = num1 ^ num2;
+		carry = num1 & num2;
+		if (carry == 0)
+		{
+			return (xor_n);
+		}
+		carry = carry << 1;
+		num1 = xor_n;
+		num2 = carry;
+	}
+	return (xor_n);
 };
 
 int main(void)
@@ -26,7 +37,7 @@ int main(void)
 	uint32_t num1 = 6;
 	uint32_t num2 = 7;
 
-	std::cout << "result = " << adder(num1, num2) << std::endl;
+	std::cout << num1 << " + " << num2 << " = " << adder(num1, num2) << std::endl;
 }
 
 
