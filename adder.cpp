@@ -10,7 +10,6 @@
 
 //Time complexity: O(1) → Your solution must finish in constant time,
 // not grow with input size.
-
 //Space complexity: O(1) → You can’t use extra memory like arrays or big data structures.
 
 auto adder = [](uint32_t num1, uint32_t num2)
