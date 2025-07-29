@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdint>
 
-// int32_t : standard 32-bit integer in <cstdint> c++ and <stdint.h> in c
+// uint32_t : standard 32-bit integer in <cstdint> c++ and <stdint.h> in c
 // MAX 4294967295
 
 //Time complexity: O(1) → Your solution must finish in constant time,
