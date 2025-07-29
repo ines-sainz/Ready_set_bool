@@ -5,7 +5,7 @@
 // MAX 4294967295
 
 //Time complexity: N/A →  Not Applicable or Not Assessed
-//Space complexity: N/A →  Not Applicable or Not Assessed
+//Space complexity: N/A → Not Applicable or Not Assessed
 
 auto gray_code = [](uint32_t num)
 {
