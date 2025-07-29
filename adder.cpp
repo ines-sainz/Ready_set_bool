@@ -2,8 +2,8 @@
 #include <cstdint>
 
 // int32_t : standard 32-bit integer in <cstdint> c++ and <stdint.h> in c
-// MAX 4294967295
 // uint32_t : standard 32-bit unsigned integer in <cstdint> c++ and <stdint.h> in c
+// MAX 4294967295
 // u_int32_t : not standard, Legacy Types
 // __uint32_t : not standard, Legacy Types
 // __uint_least32_t : not standard, Legacy Types
