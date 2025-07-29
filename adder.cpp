@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdint>
 
 // int32_t : standard 32-bit integer in <cstdint> c++ and <stdint.h> in c
 // MAX 4294967295
