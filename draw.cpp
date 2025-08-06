@@ -24,7 +24,7 @@ Tree    *Tree::make_tree(std::string str)
         else if (str[i] == '!')
         {
             if (tree.size() < 1)
-                throw("Error: parse error");
+                throw(std::runtime_error("Error: parse error"));
             Tree *val = tree.top();
             tree.pop();
             Tree *node = new Tree(str[i]);
@@ -34,7 +34,7 @@ Tree    *Tree::make_tree(std::string str)
         else if (str[i] == '&' || str[i] == '|' || str[i] == '^' || str[i] == '>' || str[i] == '=')
         {
             if (tree.size() < 2)
-                throw ("Error: parse error");
+                throw(std::runtime_error("Error: parse error"));
             Tree *right = tree.top();
             tree.pop();
             Tree *left = tree.top();
@@ -45,10 +45,10 @@ Tree    *Tree::make_tree(std::string str)
             tree.push(node);
         }
         else
-            throw("Error: parse error");
+            throw(std::runtime_error("Error: parse error"));
     }
     if (tree.size() != 1)
-        throw("Error: parse error");
+        throw(std::runtime_error("Error: parse error"));
     return (tree.top());
 }
 
@@ -111,11 +111,56 @@ Tree::Tree( std::string str )
     print_vector(vector);
 }
 
+int get_result(std::string str)
+{
+    std::stack<char> tree;
+    for (size_t i = 0; str[i]; i++)
+    {
+        if (str[i] == '1' || str[i] == '0')
+            tree.push(str[i]);
+        else if (str[i] == '!')
+        {
+            if (tree.size() < 1)
+                throw(std::runtime_error("Error: RPN expression not correctly written"));
+            int result = !(tree.top() - '0');
+            tree.pop();
+            tree.push(result + '0');
+        }
+        else if (str[i] == '&' || str[i] == '|' || str[i] == '^' || str[i] == '>' || str[i] == '=')
+        {
+            if (tree.size() < 2)
+                throw(std::runtime_error("Error: RPN expression not correctly written"));
+            int right = tree.top() - '0';
+            tree.pop();
+            int left = tree.top() - '0';
+            tree.pop();
+            if (str[i] == '&')
+            tree.push((left & right) + '0');
+            else if (str[i] == '|')
+            tree.push((left | right) + '0');
+            else if (str[i] == '^')
+            tree.push((left ^ right) + '0');
+            else if (str[i] == '>')
+            tree.push(((!left) | right) + '0');
+            else if (str[i] == '=')
+            tree.push((left == right) + '0');
+        }
+        else
+            throw(std::runtime_error("Error: character not valid"));
+    }
+    if (tree.size() != 1)
+        throw(std::runtime_error("Error: RPN expression not correctly written"));
+    return (tree.top());
+}
+
 int main(void)
 {
-    std::string str = "10&";
     try
     {
+        std::string str = "10&";
+        std::cout << str << std::endl;
+        char result = get_result(str);
+        std::cout << "Result = " << result << std::endl;
         Tree tree(str);
     }
     catch(const std::exception& e)
@@ -123,9 +168,12 @@ int main(void)
         std::cerr << e.what() << '\n';
     }
     std::cout << "\n";
-    str = "10|1|1=";
     try
     {
+        std::string str = "10|1|1=";
+        std::cout << str << std::endl;
+        char result = get_result(str);
+        std::cout << "Result = " << result << std::endl;
         Tree tree(str);
     }
     catch(const std::exception& e)
