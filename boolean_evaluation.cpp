@@ -18,7 +18,7 @@ auto eval_formula = [](const std::string& str) -> bool
         else if (str[i] == '!')
         {
             if (tree.size() < 1)
-                throw("Error: RPN expression not correctly written");
+                throw(std::runtime_error("Error: RPN expression not correctly written"));
             int result = !(tree.top() - '0');
             tree.pop();
             tree.push(result + '0');
@@ -26,7 +26,7 @@ auto eval_formula = [](const std::string& str) -> bool
         else if (str[i] == '&' || str[i] == '|' || str[i] == '^' || str[i] == '>' || str[i] == '=')
         {
             if (tree.size() < 2)
-                throw("Error: RPN expression not correctly written");
+                throw(std::runtime_error("Error: RPN expression not correctly written"));
             int right = tree.top() - '0';
                 tree.pop();
             int left = tree.top() - '0';
@@ -43,10 +43,10 @@ auto eval_formula = [](const std::string& str) -> bool
                 tree.push((left == right) + '0');
         }
         else
-            throw("Error: character not valid");
+            throw(std::runtime_error("Error: character not valid"));
     }
     if (tree.size() != 1)
-        throw("Error: RPN expression not correctly written");
+        throw(std::runtime_error("Error: RPN expression not correctly written"));
     return (tree.top() - '0');
 };
 
@@ -57,9 +57,9 @@ int main(void)
     {
         std::cout << str << " RPN -> " << eval_formula(str) << std::endl;
     }
-    catch(const char* e)
+    catch(const std::exception& e)
     {
-        std::cerr << e << '\n';
+        std::cerr << e.what() << '\n';
     }
     
 }
