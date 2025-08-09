@@ -63,11 +63,18 @@ std::vector<std::string>    Tree::vector_tree(Tree *tree)
     std::vector<std::string>    paint;
     int levels = get_levels(tree);
     int height = ((levels - 1) * 2) + 1;
-    int width = ((((levels - 1) * 2) + 1) * 2) + 1;
+
+    int large = 1;
+    if (levels >= 2)
+        large = 7;
+    for (size_t i = 2; i < levels; i++)
+    {
+        large = large * 2 - 1;
+    }
     for (size_t i = 0; i < height; i++)
     {
         std::string lines = "";
-        for (size_t j = 0; j < width; j++)
+        for (size_t j = 0; j < large; j++)
         {
             lines += " ";
         }
@@ -84,28 +91,45 @@ void    Tree::print_vector(std::vector<std::string> vector)
     }   
 }
 
-void    Tree::painting(std::vector<std::string>& vec, Tree* tree, int x, int y)
+void    Tree::painting(std::vector<std::string>& vec, Tree* tree, int x, int y, int levels)
 {
     if (!tree)
         return ;
     vec[y][x] = tree->value;
+    int spaces = 0;
+    int level_cpy = levels;
+    if (level_cpy - y >= 5)
+        spaces = 1;
+    while (level_cpy > y && level_cpy - y > 5)
+    {
+        spaces = (spaces * 2) + 3 - 1;
+        level_cpy -= 2;
+    }
     if (tree->left)
     {
-        vec[y + 1][x - 1] = '/';
-        painting(vec, tree->left, x - 2, y + 2);
+        vec[y + 1][x - (1 + spaces)] = '/';
+        painting(vec, tree->left, x - (spaces + 2), y + 2, levels);
     }
     if (tree->right)
     {
-        vec[y + 1][x + 1] = '\\';
-        painting(vec, tree->right, x + 2, y + 2);
+        vec[y + 1][x + (1 + spaces)] = '\\';
+        painting(vec, tree->right, x + (spaces + 2), y + 2, levels);
     }
 }
 
 std::vector<std::string> Tree::fill_vector(Tree *tree, std::vector<std::string> vector)
 {
-    int x = ((get_levels(tree) - 1) * 2) + 1;
+    int levels = get_levels(tree);
+    int large = 1;
+    if (levels >= 2)
+        large = 7;
+    for (size_t i = 2; i < levels; i++)
+    {
+        large = large * 2 - 1;
+    }
+    int x = (large - 1) / 2;
     int y = 0;
-    painting(vector, tree, x, y);
+    painting(vector, tree, x, y, ((levels - 1) * 2) + 1);
     return (vector);
 }
 
@@ -133,7 +157,40 @@ int main(void)
     std::cout << "\n";
     try
     {
-        std::string str = "10|1|1=";
+        std::string str = "11|11||";
+        std::cout << str << std::endl;
+        Tree tree(str);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    std::cout << "\n";
+    try
+    {
+        std::string str = "11|11||11|11|||";
+        std::cout << str << std::endl;
+        Tree tree(str);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    std::cout << "\n";
+    try
+    {
+        std::string str = "11|11||11|11|||11|11||11|11||||";
+        std::cout << str << std::endl;
+        Tree tree(str);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    std::cout << "\n";
+    try
+    {
+        std::string str = "10!&1|10^>1=";
         std::cout << str << std::endl;
         Tree tree(str);
     }
@@ -142,6 +199,7 @@ int main(void)
         std::cerr << e.what() << '\n';
     }
 }
+
 Tree::Tree( char value )
 {
     this->value = value;

@@ -9,7 +9,7 @@ class Tree
         Tree    *left;
         Tree    *right;
 
-        void    painting(std::vector<std::string>& vec, Tree* tree, int x, int y);
+        void    painting(std::vector<std::string>& vec, Tree* tree, int x, int y, int trying);
         std::vector<std::string> fill_vector(Tree *tree, std::vector<std::string> vector);
         void    print_vector(std::vector<std::string> vector);
         void    print_small_tree(Tree *tree, int levels, int current);
