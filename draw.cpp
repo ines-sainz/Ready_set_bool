@@ -6,7 +6,7 @@
 // uint32_t : standard 32-bit unsigned integer in <cstdint> c++ and <stdint.h> in c
 // MAX 4294967295
 
-//Time complexity: O(n) →  Not Applicable or Not Assessed
+//Time complexity: O(n) →  the time grows proportionally to the size of the input.
 //Space complexity: N/A → Not Applicable or Not Assessed
 
 int Tree::get_levels(Tree *tree)
