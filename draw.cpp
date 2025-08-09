@@ -133,9 +133,38 @@ std::vector<std::string> Tree::fill_vector(Tree *tree, std::vector<std::string> 
     return (vector);
 }
 
+int Tree::solve(Tree *tree)
+{
+    if (tree->value >= '0' && tree->value <= '9')
+        return (tree->value - '0');
+
+    int leftVal = solve(tree->left);
+    int rightVal = 0;
+    if (tree->right)
+        rightVal = solve(tree->right);
+
+    switch (tree->value) {
+        case '&':
+            return (leftVal & rightVal);
+        case '|':
+            return (leftVal | rightVal);
+        case '^':
+            return (leftVal ^ rightVal);
+        case '>':
+            return ((!leftVal) | rightVal);
+        case '=':
+            return (leftVal == rightVal);
+        case '!':
+            return (!leftVal);
+    }
+    return (0);
+}
+
 Tree::Tree( std::string str )
 {
     Tree    *tree = make_tree(str);
+    std::cout << "result = " << solve(tree) << std::endl;
+
     std::vector<std::string> vector = vector_tree(tree);
     vector = fill_vector(tree, vector);
     print_vector(vector);
@@ -143,7 +172,6 @@ Tree::Tree( std::string str )
 
 int main(void)
 {
-    // try this: "10!&1|10^>1="
     try
     {
         std::string str = "10&";
@@ -157,7 +185,7 @@ int main(void)
     std::cout << "\n";
     try
     {
-        std::string str = "11|11||";
+        std::string str = "00|00||";
         std::cout << str << std::endl;
         Tree tree(str);
     }
