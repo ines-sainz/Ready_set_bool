@@ -122,6 +122,22 @@ int	add_line(std::string str, std::vector<std::string>& table)
 	return (0);
 }
 
+int	check_line(std::string str_cpy, std::string str)
+{
+	for (size_t i = 0; str_cpy[i]; i++)
+	{
+		if (str_cpy[i] == '0' || str[i] == '1')
+		{
+			for (size_t j = 0; str[j]; j++)
+			{
+				if (str[i] == str[j] && str_cpy[i] != str_cpy[j])
+					return (0);
+			}
+		}
+	}
+	return (1);
+}
+
 auto truth_table = [](const std::string& str)
 {
 	std::vector<std::string> table;
@@ -136,7 +152,8 @@ auto truth_table = [](const std::string& str)
 	}
 	while (1)
 	{
-		add_line(str_cpy, table);
+		if (check_line(str_cpy, str) == 1)
+			add_line(str_cpy, table);
 		if (make_middle_lines(str_cpy) == 1)
 			break ;
 	}
@@ -177,10 +194,21 @@ int main(void)
 	{
 		std::cerr << e.what() << '\n';
 	}
-	std::cout << "\n";	
+	std::cout << "\n";
 	try
 	{
 		std::string str = "AB>";
+		std::cout << "truth table = " << str << std::endl;
+		truth_table(str);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	std::cout << "\n";
+	try
+	{
+		std::string str = "A!";
 		std::cout << "truth table = " << str << std::endl;
 		truth_table(str);
 	}
@@ -202,7 +230,7 @@ int main(void)
 	std::cout << "\n";
 	try
 	{
-		std::string str = "AB&C|";
+		std::string str = "AB&A!B!&|";
 		std::cout << "truth table = " << str << std::endl;
 		truth_table(str);
 	}
@@ -210,6 +238,18 @@ int main(void)
 	{
 		std::cerr << e.what() << '\n';
 	}
+	std::cout << "\n";
+	try
+	{
+		std::string str = "AB&C!D!&|";
+		std::cout << "truth table = " << str << std::endl;
+		truth_table(str);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	std::cout << "\n";
 }
 
 //  Symbol  |   Mathematical equivalent |   Description
